@@ -2,7 +2,6 @@ baseURL = "byronwanbl.github.io"
 languageCode = "zh-CN"
 title = "ByronWan 的个人博客"
 theme = "terminal"
-description = "ByronWan 的个人博客，内容主要是自己在 OI 上的学习和做题心得"
 
 paginate = 5
 defaultContentLanguage = "zh"
