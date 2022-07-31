@@ -1,0 +1,32 @@
+baseURL = "byronwanbl.github.io"
+languageCode = "zh-CN"
+title = "ByronWan 的个人博客"
+theme = "terminal"
+description = "ByronWan 的个人博客，内容主要是自己在 OI 上的学习和做题心得"
+
+paginate = 5
+defaultContentLanguage = "zh"
+
+[params]
+  contentTypeName = "post"
+  themeColor = "orange"
+  showMenuItems = 10
+  showLanguageSelector = false
+  fullWidthTheme = true
+  centerTheme = true
+  autoCover = true
+  showLastUpdated = true
+  readingTime = true 
+  enableGitInfo = true
+  Toc = true 
+  TocTitle = "文章目录" 
+
+[languages]
+  [languages.zh]
+    languageName = "简体中文"
+    title = "ByronWan 的个人博客"
+    owner = "ByronWan (byronwan@outlook.com)"
+    copyright = "Copyright © 2022-present ByronWan (byronwan@outlook.com)"
+    [languages.zh.params.logo]
+      logoText = "Byronwan 的个人博客"
+      logoHomeLink = "/"
