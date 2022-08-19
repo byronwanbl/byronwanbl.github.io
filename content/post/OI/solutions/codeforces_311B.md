@@ -1,5 +1,5 @@
 ---
-title: "CodeForces 311B 题解"
+title: "[CodeForces] 311B 题解"
 date: 2022-07-10
 ---
 
