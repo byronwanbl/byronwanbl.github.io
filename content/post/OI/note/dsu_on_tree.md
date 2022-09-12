@@ -1,6 +1,8 @@
 ---
 title: "树上启发式合并笔记"
 date: 2022-07-31
+description: "树上启发式合并笔记"
+tags: ["dsu_on_tree", "笔记"]
 ---
 
 ## 适用范围
