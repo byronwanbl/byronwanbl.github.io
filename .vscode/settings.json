@@ -1,0 +1,8 @@
+{
+    "yaml.schemas": {
+        "https://json.schemastore.org/github-workflow.json": [
+            "file:///home/byronwan/main/develop/byronwanbl.github.io_old/.github/workflows/deploy.yml",
+            "file:///home/byronwan/main/develop/byronwanbl.github.io/.github/deploy.yml"
+        ]
+    }
+}
