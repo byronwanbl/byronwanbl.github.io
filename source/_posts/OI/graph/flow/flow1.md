@@ -85,7 +85,6 @@ struct graph_t {
     void add(int u, int v, int f) { _add(u, v, f), _add(v, u, 0); }
 
     int dis[MAXN], now[MAXN]; // 当前弧优化，从未流尽的边开始考虑
-    bool vis[MAXN];
     bool bfs()
     {
         memset(dis, 0x3f, sizeof(dis));
@@ -109,11 +108,10 @@ struct graph_t {
     int dfs(int u, int flow)
     {
         if (u == t || !flow) return flow;
-        vis[u] = true;
         int maxflow = 0;
         for (int i = now[u]; i && flow; now[u] = i = edges[i].nxt) {
             int v = edges[i].v;
-            if (!vis[v] && edges[i].flw && dis[v] == dis[u] + 1) {
+            if (edges[i].flw && dis[v] == dis[u] + 1) {
                 // 一层一层来
                 int k = dfs(v, min(flow, edges[i].flw));
                 if (!k) dis[v] = INF;
@@ -122,7 +120,6 @@ struct graph_t {
                 // 应用修改
             }
         }
-        vis[u] = false;
         return maxflow;
     }
 

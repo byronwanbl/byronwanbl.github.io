@@ -149,9 +149,9 @@ $$
 证明也很简单，假如矩阵 $A$ 满足 $A_{a, i} = kA_{b, i}$ ，那么把 $i$ 行加上 $-k$ 倍的 $j$ 行，第 $i$ 行全是 $0$ ，行列式为 $0$ ，可知原来的矩阵的行列式也为 $0$ 。
 
 $$
-A' \larr A (T_{i,j}(-k)) \\
-\det A' = (\det A)(\det T_{i, j}(-k)) = 0 \\
-\therefore \det A = 0
+\because&A' \larr A (T_{i,j}(-k)) \\
+\because& \det A' = (\det A)(\det T_{i, j}(-k)) = 0 \\
+\therefore& \det A = 0
 $$
 
 ### 对换
@@ -180,7 +180,7 @@ $$
 对于每一个 $i$ ：
 
 $$
-i + 1\le j \le n,\ A_ = A_j - \frac {A_{j, i}}{A_{i, i}} A_i
+i + 1\le j \le n,\ A_i = A_j - \frac {A_{j, i}}{A_{i, i}} A_i
 $$
 
 这样可以将它化成上三角矩阵，然后把对角线上的数乘起来即可。
