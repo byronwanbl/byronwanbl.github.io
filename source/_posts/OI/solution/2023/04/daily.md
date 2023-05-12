@@ -1,6 +1,6 @@
 ---
 title: "2023年4月做题简要记录"
-date: 2022-4-20
+date: 2023-4-20
 description: "2023年4月做题简要记录"
 tags: ["daily"]
 ---
@@ -103,16 +103,20 @@ U 还能向上  D 还能向下
 我们用 $h[i]$ 表示 $i$ 个点按以上方案连边的的方案数：
 
 $$
+\begin{align*}
 h[i] &=& h[i-1]      &\ \ \text{这个点连向} u \\
      &+& (i-1)h[i-2] &\ \ \text{从剩下} i-1 \text{个点中选一个}
+\end{align*}
 $$
 
 所以有
 
 $$
+\begin{align*}
 f[u] &=& h[deg[u]] \prod_{v \in son[u]} f[v] & \ \ \text{选择} u \text{作为向上连边的点} \\
      &+& \sum_{v} h[deg[u] - 1]\ f[v] \prod_{w \in son[u], w \not= v} f[w] & \ \ \text{选择} v \text{作为向上连边的点} \\
      &=& h[deg[u] + 1] \prod_{v \in son[u]} f[v] \\
+\end{align*}
 $$
 
 但是对于根，由于不能选择其作为向上连边的点（为什么？仔细想一下，其不能向上连边，向下的情况都已经计算过了）。
@@ -177,12 +181,14 @@ $n \le 10^5$
 对于 $f[i]$ 的转移，推式子，令 $f[i] = f[i-1]+b[i]$ :
 
 $$
+\begin{align*}
 f[i] &=& \frac i n (f[i] - b[i]) + \frac {n-i} n (f[i] + b[i+1]) + 1 \\
   0  &=& -\frac i n b[i] + \frac {n-i} n b[i+1] + 1 \\
 b[i] &=& \frac {(n-i)b[i+1] + n} i \\
+\end{align*}
 $$
 
- [提交记录](https://www.luogu.com.cn/record/108938078)
+[提交记录](https://www.luogu.com.cn/record/108938078)
 
 ##  [P3270 [JLOI2016] 成绩比较](https://www.luogu.com.cn/problem/P3270)
 
@@ -297,17 +303,21 @@ $n \le 10^9, m \le 2\times10^7,p\le100$
 考虑如何求 $F_l(x)$ 和 $G_l(x)$ 。
 
 若 $l=1$ :
+
 $$
 i\in [0, p-1], [x^i]F_l(x) = \sum_{j \in [1, m], j\ \bmod\ p = i} 1 \\
 
 i\in [0, p-1], [x^i]G_l(x) = \sum_{j \in [1, m], j\ \bmod\ p = i, j \not \in \mathbb P} 1
 $$
+
 否则，合并两个长度为 $a$ 和 $b$ 的数列，显然可以从两边选择任意一个数列，然后和相加即可。
 
 考虑循环卷积，令 $l = a + b, a, b \lt l$：
+
 $$
 F_l(x) = \sum_{i \in [0, p-1]} \sum_{j \in [0, p-1]} [x^i]F_a(x)\ [x^j]F_b(x)\ x^{(i + j)\ \bmod\ p}
 $$
+
 然后用快速幂即可。
 
 [提交记录](https://www.luogu.com.cn/record/109021662)
@@ -315,9 +325,11 @@ $$
 ## [P3760 [TJOI2017] 异或和](https://www.luogu.com.cn/problem/P3760)
 
 有一个序列 $a_i$ ，求
+
 $$
 i, j \in [1, n], i \le j,\ \operatorname{xor} (\sum a[i \cdots j])
 $$
+
 考虑计算所有可能的 $a[i \cdots j]$ 的个数，然后答案就是所有出现奇数次的数的异或和。
 
 令 $f_x$ 为所有可能的 $a[i \cdots j]$ 中，$x$ 的出现次数。
@@ -327,12 +339,16 @@ $$
 由于有 $a[i \cdots j] = a[1 \cdots j] - a[1 \cdots (j - 1)]$ ，所以有 $f_i = \sum_{j=0}^{m-i} g_jg_{i+j}$ 。( $m = a[1 \cdots n]$ )
 
 考虑进行变换
+
 $$
+\begin{align*}
 f_i      &=& \sum_{j=0}^{m-i} g_jg_{i+j} & \\
 f_{m-i'} &=& \sum_{j=0}^{i'} g_jg_{j+m-i'} & i \larr m - i'\\
 f_{m-i'} &=& \sum_{j=0}^{i'} g_jg'_{i'-j} & g'_i \larr g_{m-i}\\
 f_{i'} &=& \sum_{j=0}^{i'} g_jg'_{i'-j} & f'_i \larr f_{m-i}\\
+\end{align*}
 $$
+
 就可以卷积了。
 
 [提交记录](https://www.luogu.com.cn/record/109026028)
@@ -348,18 +364,22 @@ $$
 设当前考虑的字符是 $ch$ ，那么 $S_i = [S^{(0)}_i = ch], T_i = [T^{(0)}_i = ch]$
 
 令 $P_i$ 为 $S$ 以 $i$ 结尾，长度 $|T|$ 的子串只考虑这个字符的情况下的匹配个数：
+
 $$
+\begin{align*}
 P_i &=& \sum_{j=0}^{m-1}T_j\ S_{i-(m-1)+j} &\\
 P_i &=& \sum_{j=0}^{m-1}T'_{m-1-j}\ S_{i-(m-1)+j} & T_j = T'_{m-1-j}\\
 P_i &=& \sum_{k+l=i} T'_l\ S_k & l = m-1-j,\ k = i+(m-1)+j,\ 并且不用考虑范围\\
+\end{align*}
 $$
+
 卷积即可。
 
 [提交记录](https://www.luogu.com.cn/record/109031121)
 
 ## [P3734 [HAOI2017]方案数](https://www.luogu.com.cn/problem/P3734)
 
-有一个定义在非负整数之间的 $\sube$ ，$a \and b = a \lrArr a \sube b$
+有一个定义在非负整数之间的 $\sube$ ，$a \land b = a \lrArr a \sube b$
 
 考虑在一个无限大的空间中：
 
@@ -376,37 +396,49 @@ $z \sube z' \rArr (x, y, z) \rarr (x, y, z')$
 考虑一条非法的路径，枚举它第一次经过的不能经过的点。
 
 $f[i]$ 为不经过不能经过的点到 $i$ 的方案数，其中 $g(j, i)$ 为从点 $j$ 出发，不考虑不能经过的点的方案数。
+
 $$
 f[i] = g(0, i) - \sum_{j \not= i} f[j]\ g(j, i)
 $$
+
 现在就要求 $g(j, i)$ 怎么求。
 
 每一次移动，都是在某些位上置 $1$ ，可以发现，路径数目只与要添加的 $1$ 的个数有关。
 
 令 $h[i][j][k]$ 为 $x, y, z$ 上分别要置 $i, j, k$ 个 $1$ 的方案数，分别考虑从三个方向转移，那么有：
+
 $$
+\begin{align*}
 h[i][j][k] &= \sum_{i'=0}^{i-1} h[i'][j][k] {i \choose i'} \\
            &+ \sum_{j'=0}^{j-1} h[i][j'][k] {j \choose j'} \\
            &+ \sum_{k'=0}^{k-1} h[i][j][k'] {k \choose k'} \\
+\end{align*}
 $$
+
 [提交记录](https://www.luogu.com.cn/record/109059107)
 
 ## [P3705[SDOI2017] 新生舞会](https://www.luogu.com.cn/problem/P3705)
 
 给定 $n \times n$ 的 $a_{i, j}$ 和 $b_{i, j}$ ，选 $n$ 个位置，每行每列有且只有一个，使得 
+
 $$
 \frac {\sum_{k=1}^n a_{x_k, y_k}} {\sum_{k=1}^n b_{x_k, y_k}}
 $$
+
 最大 。
 
 分数规划的常用套路：
+
 $$
+\begin{align*}
 \frac {\sum_{k=1}^n a_{x_k, y_k}} {\sum_{k=1}^n b_{x_k, y_k}} &=& c \ge mid \\
 \frac {\sum_{k=1}^n a_{x_k, y_k}} {\sum_{k=1}^n b_{x_k, y_k}} &=& (mid + \Delta) \\
 \sum_{k=1}^n a_{x_k, y_k} - (mid + \Delta)\sum_{k=1}^n b_{x_k, y_k} &=& 0 \\
 \sum_{k=1}^n (a_{x_k, y_k} - (mid + \Delta)b_{x_k, y_k}) &=& 0 \\
 \sum_{k=1}^n (a_{x_k, y_k} - mid\cdot b_{x_k, y_k}) &=& \Delta\sum_{k=1}^n b_{x_k, y_k}
+\end{align*}
 $$
+
 若存在一种方案使得 $\sum_{k=1}^n (a_{x_k, y_k} - mid\cdot b_{x_k, y_k}) \ge 0$ ，那么 $\Delta \ge 0$ ，所以能取到 $c \ge mid$  。
 
 考虑使用最大费用流，源点向每一行连边，每一列向汇点连边，第 $i$ 行向第 $j$ 列连费用为 $a_{i,j} - mid\cdot b_{i, j}$ 的边 ，然后判断最大费用是否大于等于 $0$ 即可（容量为 $1$ ）。
@@ -430,12 +462,15 @@ $$
 
 
 序列问题，考虑用线段树解决，先考虑操作 1，推式子：
+
 $$
+\begin{align*}
 a &=& \frac {\sum_i (x_i - \bar x)(y_i - \bar y)} {\sum_i (x_i - \bar x)^2} \\
   &=& \frac {\sum_i (x_i - \bar x)(y_i - \bar y)} {\sum_i (x_i - \bar x)^2} \\
   &=& \frac {\sum_i x_iy_i - \sum_i \bar xy_i -\sum_i \bar yx_i + \sum_i \bar x\bar y} {\sum_i (x_i - \bar x)^2} \\
   &=& \frac {\sum_i x_iy_i -  \bar x\sum_iy_i -  \bar y\sum_ix_i + \bar x\bar y(r-l+1)} {\sum_i (x_i - \bar x)^2} \\  
   &=& \frac {\sum_i x_iy_i-\bar x\sum_iy_i-\bar y\sum_ix_i\bar x\bar y(r-l+1)} {\sum_i x_i^2 - 2\bar x\sum_i x_i + \bar x^2(r-l+1)} \\
+\end{align*}
 $$
 
 发现，我们需要用线段树维护这些东西：$\sum x_iy_i, \sum x_i, \sum y_i, \sum x_i^2$ 。
@@ -443,17 +478,23 @@ $$
 同时我们还需要支持两个修改操作，分别是 $x_i, y_i = i$ 和 $x_i + s, y_i + t$ ，第 3 个操作可以由这两个操作组合而成。
 
 1. $\forall\ l\le i\le r: x_i=y_i=i$
+
    $$
+   \begin{align*}
    \sum_i {x_iy_i} = \sum_i {x_ix_i} &\larr& \sum_{i\in[l,r]} i^2 = (\sum_{i\in[1,r]} i^2) - (\sum_{i\in[1,l-1]} i^2) = \frac {r(r+1)(2r+1)-l(l-1)(2l-1)} 6 \\
    \sum_i x_i = \sum_i y_i &\larr& \frac {r(1+r) - l(l-1)} 2
+   \end{align*}
    $$
 
 2. $\forall\ l\le i \le r: x_i \larr x_i + S, y_i \larr y_i + T$
+
    $$
+   \begin{align*}
    \sum_i{x'}_i         &\larr& \sum_i (x_i+S)        &=& (\sum_i x_i) + (r-l+1)S \\
    \sum_i{y'}_i         &\larr& \sum_i (y_i+T)        &=& (\sum_i y_i) + (r-l+1)T \\
    \sum_i{x'}_i^2       &\larr& \sum_i (x_i+S)^2      &=& \sum x_i^2 + 2S \sum x_i + (r-l+1)S^2 \\
    \sum_i{x'}_i\ {y'}_i &\larr& \sum_i (x_i+S)(y_i+T) &=& \sum x_iy_i + S \sum y_i + T \sum x_i + (r-l+1)ST \\
+   \end{align*}
    $$
 
 [提交记录](https://www.luogu.com.cn/record/109185917)

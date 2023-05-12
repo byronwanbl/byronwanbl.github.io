@@ -1,6 +1,6 @@
 ---
 title: "2023年5月做题简要记录1"
-date: 2022-5-4
+date: 2023-5-4
 description: "2023年5月做题简要记录1"
 tags: ["daily"]
 ---
@@ -69,11 +69,15 @@ $b^x = n (\bmod p)$ ，已知 $b, n, p$ ，求 $x$ ：
 令 $x = it-j$ ，其中 $t = \lceil\sqrt p\rceil, i \in [1, t], j \in [0, t)$ ，
 
 那么
+
 $$
-b^x &=& n &(\bmod p) \\
-b^{it-j} &=& n &(\bmod p) \\
-(b^t)^i &=& n\cdot b^j &(\bmod p) \\
+\begin{align*}
+b^x &=& n (\bmod p) \\
+b^{it-j} &=& n (\bmod p) \\
+(b^t)^i &=& n\cdot b^j (\bmod p) \\
+\end{align*}
 $$
+
 显然预处理出所有的 $n \cdot b^j$ ，存起来，然后枚举 $i$  就行了。
 
 代码：
@@ -114,7 +118,7 @@ ll bsgs(ll b, int n)
 
 对于每个位置，赋一个随机的值 $b_i$，并且使得所有同个数字位置上的值的和为 $0$ （$\sum_{a_i=x} b_i = 0$） ，然后对于 $b_i$ 做前缀和 $s_i$，到每个位置 $i$ 统计之前有多少个 $j$ 有 $s_i = s_j$ ，加起来即可。
 
-一种可能的赋值方案是：设 $c_x = \langle1 \le i \le n: a_i=x \rangle$ ，那么 $1 \le j \lt |c_x|,\ b_i = \operatorname{rand}(), b_{|c_x|} = -\sum_{1\le j \lt |c_x|} b_j$ 。
+一种可能的赋值方案是：设 $c_x = \langle 1 \le i \le n: a_i=x \rangle$ ，那么 $1 \le j \lt |c_x|,\ b_i = \operatorname{rand}(), b_{|c_x|} = -\sum_{1\le j \lt |c_x|} b_j$ 。
 
 
 
@@ -128,11 +132,11 @@ ll bsgs(ll b, int n)
 
 ## [P4782 【模板】2-SAT 问题](https://www.luogu.com.cn/problem/P4782)
 
-要解决一个 **2-SAT** 问题：有 $n$ 个布尔变量，$x_1 \cdots x_n$ ，和 $m$ 个条件，每个条件要求 $x_i=a\or x_j = b$ ，问是否存在一种取值使得满足所有条件，求一种可能取值，或报告无解。
+要解决一个 **2-SAT** 问题：有 $n$ 个布尔变量，$x_1 \cdots x_n$ ，和 $m$ 个条件，每个条件要求 $x_i=a \lor x_j = b$ ，问是否存在一种取值使得满足所有条件，求一种可能取值，或报告无解。
 
 
 
-一个 k-SAT 问题就是有若干个布尔变量 $x_i$ ，和若干个条件，每个条件形如 $x_{a_1}=b_1 \or \cdots \or x_{a_k}=b_k$ ，问是否存在一组解满足所有条件。
+一个 k-SAT 问题就是有若干个布尔变量 $x_i$ ，和若干个条件，每个条件形如 $x_{a_1}=b_1 \lor \cdots \lor x_{a_k}=b_k$ ，问是否存在一组解满足所有条件。
 
 若 $k \gt 2$ ，这问题已经被证明是 NP 完全的了，不存在多项式时间内的算法，但若 $k=2$ ，则有一种特殊的算法可以在 $\Omicron(n+m)$ 内解决。
 
@@ -140,12 +144,12 @@ ll bsgs(ll b, int n)
 
 考虑建出一个无向图，每条边都代表这一个「蕴含」限制，即若存在一条边从 $x$ 连向 $y$ ，那么就表示 $x\rarr y$ ，其的真值表如下：
 
-| $x$  | $y$  | $x\rarr y$ |
-| ---- | ---- | ---------- |
-| 0    | 0    | 1          |
-| 0    | 1    | 1          |
-| 1    | 0    | 0          |
-| 1    | 1    | 1          |
+| $x$ | $y$ | $x\rarr y$ |
+| --- | --- | ---------- |
+| 0   | 0   | 1          |
+| 0   | 1   | 1          |
+| 1   | 0   | 0          |
+| 1   | 1   | 1          |
 
 不难发现，就是要求当 $x$ 为 1 时，$y$ 也要为 1 。
 
@@ -153,7 +157,7 @@ ll bsgs(ll b, int n)
 
 
 
-我们把一个变量 $x$ 拆开来，变成 $\lnot x$ 和 $x$ ，对于限制 $a \or b$ ，可以被拆成 $(\lnot a \rarr b )\and (\lnot b \rarr a)$ 。（正确性不难用真值表证明，此处略去）。
+我们把一个变量 $x$ 拆开来，变成 $\lnot x$ 和 $x$ ，对于限制 $a \lor b$ ，可以被拆成 $(\lnot a \rarr b )\land (\lnot b \rarr a)$ 。（正确性不难用真值表证明，此处略去）。
 
 建成这张图后，进行缩点，显然在一个强连通分量内的点必须同选 0 或者 1，若 $\lnot x$ 和 $x$ 在同一个强连通分量内，就无解。
 
@@ -163,7 +167,7 @@ ll bsgs(ll b, int n)
 
 你可能会问，假如出现这样的情况：$a \rarr \lnot a \rarr b \rarr \lnot b$  ，上面的方案不久不合法了吗？
 
-实际上这种情况不会出现，$\lnot a \rarr b$ 原来是 $a \or b$ ，还有一条边 $\lnot b \rarr a$ ，形成了一个强连通分量，不合法，类似情况同理可以证明不会出现。
+实际上这种情况不会出现，$\lnot a \rarr b$ 原来是 $a \lor b$ ，还有一条边 $\lnot b \rarr a$ ，形成了一个强连通分量，不合法，类似情况同理可以证明不会出现。
 
 
 
@@ -371,12 +375,14 @@ lll Pollard_Rho(lll n)
 由于一些取模的神秘原因（我不会，但不这么做不对），对于要处理的 $b_i$ 和 $c_i$ ，先消去共同的 $M$ 的质因数。
 
 为了方便，对于 $x = t\cdot y^k$ ，定义 $\operatorname{cnt}(x,y)=k, \operatorname{left}(x,y)=t$ 。
-$$
-x \in \mathbb{P} \and x|M,\ f_x = \sum_i \operatorname{cnt}(b_i, x) - \sum_i \operatorname{cnt}(a'_i, x) \\
 
-\forall x \in \mathbb{P} \and x|M,\ b_i \larr \operatorname{left}(b_i, x) \\
-\forall x \in \mathbb{P} \and x|M,\ c_i \larr \operatorname{left}(c_i, x) \\
 $$
+x \in \mathbb{P} \land x|M,\ f_x = \sum_i \operatorname{cnt}(b_i, x) - \sum_i \operatorname{cnt}(a'_i, x) \\
+
+\forall x \in \mathbb{P} \land x|M,\ b_i \larr \operatorname{left}(b_i, x) \\
+\forall x \in \mathbb{P} \land x|M,\ c_i \larr \operatorname{left}(c_i, x) \\
+$$
+
 若有 $f_x \lt 0$ ，那么无解。
 
 然后答案就是
